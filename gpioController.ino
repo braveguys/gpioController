@@ -1,3 +1,4 @@
+#include <Servo.h>
 /* TODO
  * 1. pwm scale setting
  * 2. relay on, off find
@@ -8,17 +9,19 @@
 #define RelayOffMotorOn   'c'
 #define RelayOffMotorOff  'd'
 
-#define PWM_ON             20
-#define PWM_OFF            200
+#define SERVO_ON             20
+#define SERVO_OFF            180
 
 #define PIN_PWM            3
 #define PIN_RELAY          2
 
+Servo servo;
 char data = RelayOffMotorOff;
 
 void setup() {
   Serial.begin(9600);
   control(data);
+  servo.attach(PIN_PWM);
 }
 
 void loop() {
@@ -34,18 +37,18 @@ void control(char c){
     switch(c){
     case RelayOnMotorOn:
       digitalWrite(PIN_RELAY, HIGH);
-      analogWrite(PIN_PWM, PWM_ON);
+      servo.write(SERVO_ON);
       break;
     case RelayOnMotorOff:
       digitalWrite(PIN_RELAY, HIGH);
-      analogWrite(PIN_PWM, PWM_OFF);
+      servo.write(SERVO_OFF);
       break;
     case RelayOffMotorOn:
       digitalWrite(PIN_RELAY, LOW);
-      analogWrite(PIN_PWM, PWM_ON);
+      servo.write(SERVO_ON);
       break;
     case RelayOffMotorOff:
       digitalWrite(PIN_RELAY, LOW);
-      analogWrite(PIN_PWM, PWM_OFF);      
+      servo.write(SERVO_OFF);
   }
 }
